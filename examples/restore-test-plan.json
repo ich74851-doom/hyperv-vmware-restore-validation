@@ -1,0 +1,37 @@
+{
+  "name": "Quarterly DR test - corp.example.com (fictional)",
+  "isolatedSwitch": "DR-Isolated",
+  "rtoMinutes": 60,
+  "bootTimeoutSeconds": 600,
+  "vms": [
+    {
+      "name": "DC01-RESTORE",
+      "role": "Domain controller",
+      "checks": [
+        { "type": "Service", "name": "NTDS" },
+        { "type": "Service", "name": "DNS" },
+        { "type": "TcpPort", "port": 389 },
+        { "type": "Path", "path": "C:\\Windows\\SYSVOL\\domain" }
+      ]
+    },
+    {
+      "name": "SQL01-RESTORE",
+      "role": "SQL Server",
+      "bootTimeoutSeconds": 900,
+      "checks": [
+        { "type": "Service", "name": "MSSQLSERVER" },
+        { "type": "TcpPort", "port": 1433 },
+        { "type": "Path", "path": "D:\\SQLData" }
+      ]
+    },
+    {
+      "name": "FS01-RESTORE",
+      "role": "File server",
+      "checks": [
+        { "type": "Service", "name": "LanmanServer" },
+        { "type": "TcpPort", "port": 445 },
+        { "type": "Path", "path": "E:\\Shares\\Finance" }
+      ]
+    }
+  ]
+}

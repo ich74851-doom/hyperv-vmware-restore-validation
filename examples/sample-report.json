@@ -1,0 +1,94 @@
+{
+  "planName": "Quarterly DR test - corp.example.com (fictional)",
+  "isolatedSwitch": "DR-Isolated",
+  "hostName": "HV-LAB01",
+  "started": "2026-10-17T09:00:00",
+  "finished": "2026-10-17T09:26:00",
+  "rtoMinutes": 60,
+  "exitCode": 1,
+  "results": [
+    {
+      "vm": "DC01-RESTORE",
+      "role": "Domain controller",
+      "outcome": "Passed",
+      "heartbeat": "OkApplicationsHealthy",
+      "heartbeatSeconds": 142,
+      "elapsedMinutes": 6.4,
+      "error": "",
+      "checks": [
+        {
+          "check": "Service NTDS",
+          "passed": true,
+          "detail": "Service 'NTDS' is Running"
+        },
+        {
+          "check": "Service DNS",
+          "passed": true,
+          "detail": "Service 'DNS' is Running"
+        },
+        {
+          "check": "TCP 389",
+          "passed": true,
+          "detail": "TCP 389 is listening"
+        },
+        {
+          "check": "Path C:\\Windows\\SYSVOL\\domain",
+          "passed": true,
+          "detail": "C:\\Windows\\SYSVOL\\domain exists"
+        }
+      ]
+    },
+    {
+      "vm": "SQL01-RESTORE",
+      "role": "SQL Server",
+      "outcome": "Passed",
+      "heartbeat": "OkApplicationsHealthy",
+      "heartbeatSeconds": 318,
+      "elapsedMinutes": 11.9,
+      "error": "",
+      "checks": [
+        {
+          "check": "Service MSSQLSERVER",
+          "passed": true,
+          "detail": "Service 'MSSQLSERVER' is Running"
+        },
+        {
+          "check": "TCP 1433",
+          "passed": true,
+          "detail": "TCP 1433 is listening"
+        },
+        {
+          "check": "Path D:\\SQLData",
+          "passed": true,
+          "detail": "D:\\SQLData exists"
+        }
+      ]
+    },
+    {
+      "vm": "FS01-RESTORE",
+      "role": "File server",
+      "outcome": "Failed",
+      "heartbeat": "OkApplicationsHealthy",
+      "heartbeatSeconds": 165,
+      "elapsedMinutes": 7.2,
+      "error": "",
+      "checks": [
+        {
+          "check": "Service LanmanServer",
+          "passed": true,
+          "detail": "Service 'LanmanServer' is Running"
+        },
+        {
+          "check": "TCP 445",
+          "passed": true,
+          "detail": "TCP 445 is listening"
+        },
+        {
+          "check": "Path E:\\Shares\\Finance",
+          "passed": false,
+          "detail": "E:\\Shares\\Finance not found"
+        }
+      ]
+    }
+  ]
+}
