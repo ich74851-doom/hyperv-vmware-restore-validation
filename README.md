@@ -50,6 +50,7 @@ cd hyperv-vmware-restore-validation
 .\scripts\Invoke-RestoreValidation.ps1 -PlanPath .\examples\restore-test-plan.json -ValidateOnly
 
 # 2. Copy the example, edit VM names, switch and checks
+New-Item -ItemType Directory -Path .\plans -Force | Out-Null
 Copy-Item .\examples\restore-test-plan.json .\plans\quarterly.local.json
 
 # 3. Run it (prompts for the guest credential)
