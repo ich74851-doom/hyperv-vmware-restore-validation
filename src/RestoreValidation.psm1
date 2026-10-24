@@ -47,7 +47,8 @@ function Test-RestoreTestPlan {
     }
 
     $i = 0
-    foreach ($vm in @($Plan.vms | Where-Object { $null -ne $_ })) {
+    $planVms = if ($names -contains 'vms') { @($Plan.vms | Where-Object { $null -ne $_ }) } else { @() }
+    foreach ($vm in $planVms) {
         $i++
         $vmNames = @($vm.PSObject.Properties.Name)
         if ($vmNames -notcontains 'name' -or [string]::IsNullOrWhiteSpace($vm.name)) {
@@ -75,7 +76,7 @@ function Test-RestoreTestPlan {
         }
     }
     if ($i -eq 0 -and $names -contains 'vms') { $problems.Add("Plan has no VMs.") }
-    return , $problems.ToArray()
+    return $problems.ToArray()
 }
 
 function Read-RestoreTestPlan {
@@ -98,7 +99,7 @@ function Read-RestoreTestPlan {
     catch {
         throw "Test plan '$Path' is not valid JSON: $($_.Exception.Message)"
     }
-    $problems = Test-RestoreTestPlan -Plan $plan
+    $problems = @(Test-RestoreTestPlan -Plan $plan)
     if ($problems.Count -gt 0) {
         throw "Test plan '$Path' is invalid:`n - " + ($problems -join "`n - ")
     }
@@ -363,7 +364,7 @@ function Invoke-RestoreValidation {
         [ValidateSet('None', 'Stop', 'Remove')] [string] $Cleanup = 'Stop',
         [int] $PollSeconds = 10
     )
-    $problems = Test-RestoreTestPlan -Plan $Plan
+    $problems = @(Test-RestoreTestPlan -Plan $Plan)
     if ($problems.Count -gt 0) { throw "Plan is invalid: $($problems -join '; ')" }
     Assert-IsolatedSwitch -SwitchName $Plan.isolatedSwitch
 
