@@ -1,0 +1,13 @@
+# Generated reports
+reports/
+*.log
+# Editor / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+# Pester output
+testResults.xml
+coverage.xml
+# Real test plans with internal names stay local
+*.local.json
